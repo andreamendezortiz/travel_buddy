@@ -19,11 +19,13 @@ def travels(request):
     user_id = request.session['user']['id']
     my_trips = Trip.objects.filter(creator = user_id)
     travellers = User.objects.get(id=user_id)
+    trips = Trip.objects.filter(travellers = user_id)
 
     context = {
         'travellers' : travellers,
         'user': user,
-        'my_trips': my_trips
+        'my_trips': my_trips,
+        'trips' : trips
     }
     return render(request, 'travels.html', context)
 
@@ -74,6 +76,9 @@ def cancel(request, id):
     user = request.session['user']
     user_id = request.session['user']['id']
     trip = Trip.objects.get(id=id)
+    trip.delete()
+
+
 
     return redirect("/travels")
 
