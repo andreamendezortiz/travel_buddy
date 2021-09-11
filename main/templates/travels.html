@@ -1,17 +1,13 @@
 {% extends 'base.html' %}
 
-{% block titulo %}INDEX USUARIO{% endblock %}
-
+{% block titulo %}Viajes{% endblock %}
 
 
 {% block contenido %}
 <div class="container">
     <div class="row">
         <div class="col mb-3">
-            <h2>Tu calendario de viajes:</h2>
-            <form method="POST">
-                {% csrf_token %}
-            
+            <h2>Tu calendario de viajes <img src="https://img.icons8.com/doodle/48/000000/calendar--v2.png"/></h2>      
             <table class="table">
                 <thead>
                     <tr>
@@ -23,34 +19,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for trip in trips %}
-                    <tr>
-                        <td>{{trip.destination}}</td>
-                        <td>{{trip.travel_date_from</td>
+                    {% for trip in my_trips %}
+                    <tr class="table-primary">
+                        <td><a href='/view/{{trip.id}}'>{{trip.destination}}</a></td>
+                        <td>{{trip.travel_date_from}}</td>
                         <td>{{trip.travel_date_to}}</td>
                         <td>{{trip.description}}</td>
                         <td><a href="/">Cancel</a></td>
                         <td><a href="/">Delete</a></td>
                     </tr>
                     {% endfor %}
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
                 </tbody>
             </table>
-        </form>
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col mb-3">
-        <h2>Planes de viajes de otros usuarios:</h2>
+        <h2>Planes de viajes de otros usuarios <img src="https://img.icons8.com/doodle/48/000000/group.png"/></h2>
         <table class="table">
             <thead>
-                <tr>
+                <tr class="table-secondary">
                     <th scope="col">Nombre</th>
                     <th scope="col">Inicio del viaje</th>
                     <th scope="col">Fin del viaje</th>
@@ -63,15 +52,9 @@
                     <td>{{trip.destination}}</td>
                     <td>{{trip.travel_date_from</td>
                     <td>{{trip.travel_date_to}}</td>
-                    <td><a href="/">Join</a></td>
+                    <td><a href="/travels/join/{{trip.id}}">Únete</a></td>
                 </tr>
                 {% endfor %}
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
             </tbody>
         </table>
     </div>

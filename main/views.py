@@ -3,26 +3,31 @@ from django.shortcuts import redirect, render
 import bcrypt
 from .decorators import login_required
 from .models import User, Trip 
+import datetime
 
 
-@login_required
+
+
 def index(request):
 
-    context = {
-        'saludo': 'Hola'
-    }
-    return render(request, 'index.html', context)
+    return render(request, 'login.html')
+
 
 
 def travels(request):
-    trip = Trip.objects.all()
-    user = User.objects.all()
+    user = request.session['user']
+    user_id = request.session['user']['id']
+    my_trips = Trip.objects.filter(creator = user_id)
+    travellers = User.objects.get(id=user_id)
 
     context = {
-        'trip': trip,
-        'user': user
+        'travellers' : travellers,
+        'user': user,
+        'my_trips': my_trips
     }
     return render(request, 'travels.html', context)
+
+
 
 
 def addtrip(request):
@@ -36,15 +41,49 @@ def addtrip(request):
     return render(request, 'addtrip.html', context)
 
 
-def destination(request, id):
-    trip = Trip.objects.all()
-    user = User.objects.all()
+
+
+def view(request, id):
+    trip = Trip.objects.get(id=id)
+    user = request.session['user']
 
     context = {
         'trip': trip,
         'user': user
     }
-    return render(request, 'destination.html', context)
+    return render(request, 'view.html', context)
+
+
+def new_travel(request):
+    user = request.session['user']
+    destination = request.POST['destination']
+    description = request.POST['description']
+    travel_date_from = datetime.datetime.strptime(request.POST['travel_date_from'], "%Y-%m-%d").date()
+    travel_date_to = datetime.datetime.strptime(request.POST['travel_date_to'], "%Y-%m-%d").date()
+    user_id = request.session['user']['id']
+    traveller = User.objects.get(id=user_id)
+
+    new_travel = Trip.objects.create(destination = destination, description = description, travel_date_from = travel_date_from, travel_date_to = travel_date_to, creator_id = user_id)
+
+    messages.success(request, f'Agregaste un nuevo viaje')
+    return redirect("/travels")
+
+
+
+def cancel(request, id):
+    user = request.session['user']
+    user_id = request.session['user']['id']
+    trip = Trip.objects.get(id=id)
+
+    return redirect("/travels")
+
+
+def delete(request, trip_id):
+    trip = Trip.objects.get(id=trip_id)
+    trip.delete()
+
+    return redirect("/travels")
+
 
 
 

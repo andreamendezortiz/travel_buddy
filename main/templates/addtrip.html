@@ -4,34 +4,42 @@
 
 
 
+
 {% block contenido %}
+
+<style>
+  body {
+    background-image: url("https://www.mochilerosviajeros.com/wp-content/uploads/2021/02/AURORA-BOREAL-scaled.jpg");
+    background-size: cover;
+  }
+</style>
 <div class="container">
     <div class="mt-3">
       <div class="row">
         <div class="col-5">
           <h1>Agrega tu viaje</h1>
-          <form method="POST" action="/">
+          <form method="POST" action="/new_travel">
             {% csrf_token %}
             <div class="mb-3">
-              <label for="nombre" class="form-label">Destino</label>
-              <input type="text" class="form-control" id="user" name="user" value="{{request.session.register_user}}">
+              <label for="destination" class="form-label">Destino</label>
+              <input type="text" class="form-control" id="user" name="destination" value="">
             </div>
     
             <div class="mb-3">
-              <label for="password" class="form-label">Descripción </label>
-              <input type="password" class="form-control" id="password" name="password">
+              <label for="text" class="form-label">Descripción </label>
+              <input type="text" class="form-control" id="description" name="description">
             </div>
             <div class="mb-3">
               <label for="password_confirm" class="form-label">Inicio del viaje</label>
-              <input type="date" class="form-control" id="password_confirm" name="date_from">
+              <input type="date" class="form-control" id="travel_date_from" name="travel_date_from">
             </div>
             <input type="hidden" name="role" value="user">
             <div class="mb-3">
                 <label for="password_confirm" class="form-label">Fin del viaje</label>
-                <input type="date" class="form-control" id="password_confirm" name="date_to">
+                <input type="date" class="form-control" id="travel_date_to" name="travel_date_to">
               </div>
     
-            <button type="submit" class="btn btn-warning">Añadir viaje</button>
+            <button type="submit" class="btn btn-success">Añadir viaje</button>
           </form>  
         </div>
       </div>

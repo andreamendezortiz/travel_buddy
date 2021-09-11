@@ -34,10 +34,10 @@ class User(models.Model):
     objects = UserManager()
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.username}"
 
     def __repr__(self):
-        return f"{self.name}"
+        return f"{self.username}"
 
 
 

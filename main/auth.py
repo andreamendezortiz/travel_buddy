@@ -13,7 +13,7 @@ def logout(request):
 
 def login(request):
     if request.method == "POST":
-        user = User.objects.filter(username=request.POST['username'])
+        user = User.objects.filter(username=request.POST['user'])
         if user:
             log_user = user[0]
 
@@ -21,8 +21,7 @@ def login(request):
 
                 user = {
                     "id" : log_user.id,
-                    "name": f"{log_user}",
-                    "role": log_user.role
+                    "user": f"{log_user}",
                 }
 
                 request.session['user'] = user

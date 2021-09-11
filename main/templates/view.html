@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Ver viaje{% endblock %}
+
+
+
+{% block contenido %}
+<style>
+    body {
+        background-image: url("https://i.pinimg.com/originals/69/83/28/698328f0e4cc3a255afa848c0812ecc1.jpg");
+        background-size: cover;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col mb-4">
+            <h1>{{trip.destination}}</h1>
+            <h3>Planeado por: {{trip.creator}}</h3>
+            <h3>Descripción: {{trip.description}}</h3>
+            <h2>Inicio del viaje: {{trip.travel_date_from}}</h2>
+            <h2>Fin del viaje: {{trip.travel_date_to}}</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mt-4">
+            
+            <h2>Otros usuarios que se unieron a este viaje:</h2>
+            {% for traveller in travellers %}
+            <h3>{{trip.travellers}}</h3>
+            {% endfor %}
+
+        </div>
+    </div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+{% endblock %}
