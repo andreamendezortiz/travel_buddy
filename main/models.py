@@ -1,5 +1,6 @@
 from django.db import models
 import re
+from datetime import date, datetime
 
 # Create your models here.
 class UserManager(models.Manager):
@@ -38,6 +39,24 @@ class User(models.Model):
 
     def __repr__(self):
         return f"{self.username}"
+
+
+class TripManager(models.Manager):
+    def validador_basico(self, postData):
+        today = date.today().strftime("%Y-%m-%d")
+        start_date = postData['start_date']
+        errors = {}
+        
+        if len(postData['destination']) == "":
+            errors['destination'] = "Debes agregar un destino";
+        if len(postData['description']) == "":
+            errors['description'] = "Debes agregar un plan";
+        if (postData['travel_date_from']) == "":
+            errors['travel_date_from'] = "Debes agregar la fecha de inicio del viaje"
+        if (postData['travel_date_to']) == "":
+            errors['travel_date_to'] = "Debes agregar la fecha de término del viaje"
+
+        return errors
 
 
 

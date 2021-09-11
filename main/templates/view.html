@@ -16,18 +16,18 @@
     <div class="row">
         <div class="col mb-4">
             <h1>{{trip.destination}}</h1>
-            <h3>Planeado por: {{trip.creator}}</h3>
-            <h3>Descripción: {{trip.description}}</h3>
-            <h2>Inicio del viaje: {{trip.travel_date_from}}</h2>
-            <h2>Fin del viaje: {{trip.travel_date_to}}</h2>
+            <h2>Planeado por: {{trip.creator}}</h2>
+            <h2>Descripción: {{trip.description}}</h2>
+            <h4>Inicio del viaje: {{trip.travel_date_from}}</h4>
+            <h4>Fin del viaje: {{trip.travel_date_to}}</h4>
         </div>
     </div>
     <div class="row">
         <div class="col mt-4">
             
             <h2>Otros usuarios que se unieron a este viaje:</h2>
-            {% for traveller in travellers %}
-            <h3>{{trip.travellers}}</h3>
+            {% for user in trip.travellers.all %}
+            <h4>{{user.username}}</h4>
             {% endfor %}
 
         </div>
