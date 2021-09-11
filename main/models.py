@@ -46,7 +46,7 @@ class Trip(models.Model):
     description = models.CharField(max_length=255)
     travel_date_from = models.DateTimeField(auto_now_add=True)
     travel_date_to = models.DateTimeField(auto_now_add=True)
-    travellers = models.ManyToManyField(User,related_name="trips")
+    travellers = models.ManyToManyField(User,related_name="other_trips")
     creator = models.ForeignKey(User, related_name="my_trips", on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)

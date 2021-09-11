@@ -3,14 +3,32 @@ from django.shortcuts import redirect, render
 import bcrypt
 from .decorators import login_required
 from .models import User, Trip 
-import datetime
+import datetime 
 
 
 
 
 def index(request):
+    if request.method == "POST":
+        user = User.objects.filter(username=request.POST['user'])
+    if user:
+        log_user = user[0]
 
-    return render(request, 'login.html')
+        if bcrypt.checkpw(request.POST['password'].encode(), log_user.password.encode()):
+
+            user = {
+                "id" : log_user.id,
+                "user": f"{log_user}",
+                }
+
+            request.session['user'] = user
+            messages.success(request, "Logueado correctamente.")
+            return redirect("/travels")
+        else:
+            messages.error(request, "Usuario o password incorrectos.")
+    else:
+        messages.error(request, "Usuario o password incorrectos.")
+
 
 
 
@@ -18,13 +36,16 @@ def travels(request):
     user = request.session['user']
     user_id = request.session['user']['id']
     my_trips = Trip.objects.filter(creator = user_id)
-    travellers = User.objects.get(id=user_id)
-    trips = Trip.objects.filter(travellers = user_id)
+    traveller = User.objects.get(id=request.session['user']['id'])
+    other_trips = Trip.objects.exclude(travellers = traveller).all
+    trips = Trip.objects.filter(travellers=traveller).all()
+
 
     context = {
-        'travellers' : travellers,
+        'traveller' : traveller,
         'user': user,
         'my_trips': my_trips,
+        'other_trips' : other_trips,
         'trips' : trips
     }
     return render(request, 'travels.html', context)
@@ -78,8 +99,6 @@ def cancel(request, id):
     trip = Trip.objects.get(id=id)
     trip.delete()
 
-
-
     return redirect("/travels")
 
 
@@ -87,8 +106,18 @@ def delete(request, trip_id):
     trip = Trip.objects.get(id=trip_id)
     trip.delete()
 
-    return redirect("/travels")
+    return redirect(request, "/travels")
 
 
+
+def join(request, id):
+
+    trip = Trip.objects.get(id=id)
+    user = User.objects.get(id=request.session['user']['id'])  
+    trip.travellers.add(user)
+
+    messages.success(request, "Te uniste a un viaje")
+
+    return redirect('/travels')
 
 

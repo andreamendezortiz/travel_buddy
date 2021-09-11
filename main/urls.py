@@ -11,5 +11,6 @@ urlpatterns = [
     path('new_travel', views.new_travel),
     path('view/<id>', views.view),
     path('cancel', views.cancel),
-    path('delete', views.delete)
+    path('delete', views.delete),
+    path('join/<id>', views.join)
 ]

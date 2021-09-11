@@ -47,12 +47,12 @@
                 </tr>
             </thead>
             <tbody>
-                {% for trip in trips %}
+                {% for trip in other_trips %}
                 <tr>
-                    <td>{{trip.destination}}</td>
-                    <td>{{trip.travel_date_from</td>
+                    <td><a href='/view/{{trip.id}}'>{{trip.destination}}</a></td>
+                    <td>{{trip.travel_date_from}}</td>
                     <td>{{trip.travel_date_to}}</td>
-                    <td><a href="/travels/join/{{trip.id}}">Únete</a></td>
+                    <td><a href="/join/{{trip.id}}">Únete</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
