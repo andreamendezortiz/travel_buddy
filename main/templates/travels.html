@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block titulo %}INDEX USUARIO{% endblock %}
+
+
+
+{% block contenido %}
+<div class="container">
+    <div class="row">
+        <div class="col mb-3">
+            <h2>Tu calendario de viajes:</h2>
+            <form method="POST">
+                {% csrf_token %}
+            
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Inicio del viaje</th>
+                        <th scope="col">Fin del viaje</th>
+                        <th scope="col">Plan</th>
+                        <th scope="col">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for trip in trips %}
+                    <tr>
+                        <td>{{trip.destination}}</td>
+                        <td>{{trip.travel_date_from</td>
+                        <td>{{trip.travel_date_to}}</td>
+                        <td>{{trip.description}}</td>
+                        <td><a href="/">Cancel</a></td>
+                        <td><a href="/">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col mb-3">
+        <h2>Planes de viajes de otros usuarios:</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Inicio del viaje</th>
+                    <th scope="col">Fin del viaje</th>
+                    <th scope="col">¿Quieres unirte?</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trip in trips %}
+                <tr>
+                    <td>{{trip.destination}}</td>
+                    <td>{{trip.travel_date_from</td>
+                    <td>{{trip.travel_date_to}}</td>
+                    <td><a href="/">Join</a></td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+
