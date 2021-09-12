@@ -19,14 +19,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for trip in my_trips %}
+                    {% for trip in trips.all %}
                     <tr class="table-primary">
                         <td><a href='/view/{{trip.id}}'>{{trip.destination}}</a></td>
                         <td>{{trip.travel_date_from}}</td>
                         <td>{{trip.travel_date_to}}</td>
                         <td>{{trip.description}}</td>
-                        <td><a href="/cancel">Cancel</a></td>
-                        <td><a href="/delete">Delete</a></td>
+                        <td> <a href="/cancel/{{trip.id}}">Cancel</a></td>
+                        <td><a href="/delete/{{trip.id}}">Delete</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>

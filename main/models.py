@@ -44,7 +44,7 @@ class User(models.Model):
 class TripManager(models.Manager):
     def validador_basico(self, postData):
         today = date.today().strftime("%Y-%m-%d")
-        start_date = postData['start_date']
+        travel_date_from = postData['travel_date_from']
         errors = {}
         
         if len(postData['destination']) == "":
@@ -72,9 +72,9 @@ class Trip(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.name} {self.id}"
+        return f"{self.destination} {self.id}"
 
     def __repr__(self):
-        return f"{self.name} {self.id}"
+        return f"{self.destination} {self.id}"
 
 

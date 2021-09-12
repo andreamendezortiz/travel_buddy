@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 import bcrypt
 from .decorators import login_required
 from .models import User, Trip 
+from datetime import date
 
 
 
@@ -74,24 +75,26 @@ def cancel(request, id):
     user = request.session['user']
     user_id = request.session['user']['id']
     trip = Trip.objects.get(id=id)
-    trip.delete()
+    trip.remove(user)
+
+    messages.warning(request, "Cancelaste tu participación en el viaje indicado")
 
     return redirect("/travels")
 
 
-def delete(request, trip_id):
-    trip = Trip.objects.get(id=trip_id)
+def delete(request, id):
+    trip = Trip.objects.get(id=id)
     trip.delete()
 
     messages.warning(request, "Eliminaste el viaje indicado")
 
-    return redirect(request, "/travels")
+    return redirect("/travels")
 
 
 
 def join(request, id):
 
-    trip = Trip.objects.get(id=id)
+    trip = Trip.objects.get(id = id)
     user = User.objects.get(id=request.session['user']['id'])  
     trip.travellers.add(user)
 
