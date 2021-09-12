@@ -7,7 +7,7 @@ from datetime import date
 
 
 
-
+@login_required
 def travels(request):
     user = request.session['user']
     user_id = request.session['user']['id']
@@ -28,7 +28,7 @@ def travels(request):
 
 
 
-
+@login_required
 def addtrip(request):
     trip = Trip.objects.all()
     user = User.objects.all()
@@ -41,7 +41,7 @@ def addtrip(request):
 
 
 
-
+@login_required
 def view(request, id):
     trip = Trip.objects.get(id=id)
     user = request.session['user']
@@ -55,7 +55,19 @@ def view(request, id):
     return render(request, 'view.html', context)
 
 
+@login_required
 def new_travel(request):
+    if request.method == 'GET':
+
+        return render(request,'addtrip.html')
+    
+    errors = Trip.objects.validador_basico(request.POST)
+
+    if len(errors) > 0:
+            for key, error_msg in errors.items():
+                messages.error(request, error_msg)
+            return redirect('/new_travel')
+
     user = request.session['user']
     destination = request.POST['destination']
     description = request.POST['description']
@@ -70,7 +82,7 @@ def new_travel(request):
     return redirect("/travels")
 
 
-
+@login_required
 def cancel(request, id):
     user = request.session['user']
     user_id = request.session['user']['id']
@@ -82,6 +94,7 @@ def cancel(request, id):
     return redirect("/travels")
 
 
+@login_required
 def delete(request, id):
     trip = Trip.objects.get(id=id)
     trip.delete()
@@ -91,7 +104,7 @@ def delete(request, id):
     return redirect("/travels")
 
 
-
+@login_required
 def join(request, id):
 
     trip = Trip.objects.get(id = id)

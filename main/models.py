@@ -43,14 +43,12 @@ class User(models.Model):
 
 class TripManager(models.Manager):
     def validador_basico(self, postData):
-        today = date.today().strftime("%Y-%m-%d")
-        travel_date_from = postData['travel_date_from']
         errors = {}
         
-        if len(postData['destination']) == "":
-            errors['destination'] = "Debes agregar un destino";
-        if len(postData['description']) == "":
-            errors['description'] = "Debes agregar un plan";
+        if len(postData['destination']) < 1:
+            errors['destination_len'] = "Debes agregar un destino"
+        if len(postData['description']) < 1:
+            errors['description_len'] = "Debes agregar un plan"
         if (postData['travel_date_from']) == "":
             errors['travel_date_from'] = "Debes agregar la fecha de inicio del viaje"
         if (postData['travel_date_to']) == "":
@@ -63,13 +61,14 @@ class TripManager(models.Manager):
 class Trip(models.Model):
     destination = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
-    travel_date_from = models.DateTimeField(auto_now_add=True)
-    travel_date_to = models.DateTimeField(auto_now_add=True)
+    travel_date_from = models.DateTimeField()
+    travel_date_to = models.DateTimeField()
     travellers = models.ManyToManyField(User,related_name="other_trips")
     creator = models.ForeignKey(User, related_name="my_trips", on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    objects = TripManager()
 
     def __str__(self):
         return f"{self.destination} {self.id}"
